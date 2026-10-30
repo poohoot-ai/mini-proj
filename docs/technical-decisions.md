@@ -19,7 +19,8 @@
 | Docker Engine | 확인 환경 29.9.2 | 확인 |
 | Docker Compose | 확인 환경 v5.6.0 | 확인 |
 | OpenAI Python SDK | 작업 1.2에서 버전 고정 후 설치 | 미설치 |
-| SQLAlchemy·psycopg·pytest | 관련 구현 작업에서 버전 고정 후 설치 | 미설치 |
+| SQLAlchemy | 2.1.6 | 확인 |
+| psycopg·pytest | 관련 구현 작업에서 버전 고정 후 설치 | 미설치 |
 
 ## OpenAI 모델 결정
 

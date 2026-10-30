@@ -114,7 +114,7 @@
     - 완료 증거: `Ran 3 tests ... OK`, `COMPILE_EXIT=0`, `HEALTH_ROUTE=/health`, `SECRET_PATTERN_OUTSIDE_ENV=False`
     - 미실행: 외부 API 호출, 서버 실행, 컨테이너 실행, 패키지 설치
 
-- [ ] 1.3 주문·메뉴·사건·상태 데이터 모델 정의
+- [x] 1.3 주문·메뉴·사건·상태 데이터 모델 정의
   - 목적: 주문 처리와 장애 복구에 필요한 공통 데이터 계약을 확정한다.
   - 관련 요구사항: FR-002~FR-009, FR-013, NFR-002, NFR-004
   - 선행조건: 1.2
@@ -134,6 +134,12 @@
   - 완료 증거: 스키마 테스트 출력, 마이그레이션 검토 결과
   - 위험·주의사항: 실제 개인정보 필드를 추가하지 않는다.
   - 예상 일정: Day 2
+  - 완료 기록:
+    - 실제 변경 파일: `pyproject.toml`, `backend/app/schemas/__init__.py`, `backend/app/schemas/orders.py`, `backend/app/schemas/incidents.py`, `backend/app/db/__init__.py`, `backend/app/db/base.py`, `backend/app/db/models.py`, `backend/app/db/migrations/0001_initial.sql`, `tests/unit/schemas/__init__.py`, `tests/unit/schemas/test_orders.py`, `tests/unit/schemas/test_incidents.py`, `tests/unit/db/__init__.py`, `tests/unit/db/test_models.py`, `docs/technical-decisions.md`, `tasks/tasks-auto-healing.md`
+    - 구현 내용: 주문·메뉴·사건·복구 Pydantic 계약, SQLAlchemy 테이블 5개, 주문자·복구시도 유일성 제약, PostgreSQL 초기 마이그레이션
+    - 테스트 결과: 대상 테스트 11개 통과, 전체 unittest 14개 통과, compileall 통과, PostgreSQL DDL 컴파일 통과
+    - 완료 증거: `Ran 14 tests ... OK`, `POSTGRES_DDL_COMPILE=OK`, 테이블 목록 5개
+    - 남은 위험: 실제 PostgreSQL 연결과 마이그레이션 실행은 DB 세션 구성 작업에서 검증 필요
 
 - [ ] 1.4 API·Handoff·오류 계약 정의
   - 목적: Streamlit·FastAPI·에이전트 간 입력·출력과 실패 표현을 고정한다.
