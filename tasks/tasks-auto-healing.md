@@ -6,9 +6,9 @@
 - 기반 PRD: `docs/prd-auto-healing.md`
 - PRD 버전: v1.2 승인본
 - PRD 승인 상태: 승인(2026-10-30)
-- 작업목록 버전: v0.1 초안
+- 작업목록 버전: v1.0 승인본
 - 작성일: 2026-10-30
-- 상태: 승인 대기
+- 상태: 승인
 
 ---
 
@@ -60,7 +60,7 @@
 
 ### 1. 프로젝트 기반과 공통 계약 정의
 
-- [ ] 1.1 OpenAI 모델 가용성과 개발 기준 확정
+- [x] 1.1 OpenAI 모델 가용성과 개발 기준 확정
   - 목적: 승인된 모델과 필수 런타임이 실제 구현 가능한지 선행 확인한다.
   - 관련 요구사항: FR-003, FR-011, NFR-003, NFR-005
   - 선행조건: 없음
@@ -78,8 +78,15 @@
   - 완료 증거: 결정 기록, 가용성 확인 결과의 민감정보 제거본
   - 위험·주의사항: 공식 문서상 모델이 deprecated이므로 가용성 확인 전 연동 작업을 시작하지 않는다.
   - 예상 일정: Day 2
+  - 완료 기록:
+    - 실제 변경 파일: `.env.example`, `docs/technical-decisions.md`, `tasks/tasks-auto-healing.md`
+    - 검증: `.env` 존재·키 항목·Git 제외 여부 확인, 저장소 비밀 패턴 검사, 인증된 모델 조회 1회
+    - 결과: `gpt-4o-mini` 모델 메타데이터 조회 성공
+    - 완료 증거: `MODEL_LOOKUP_SUCCESS=True`, `MODEL_ID=gpt-4o-mini`, 기술 결정 기록
+    - 보안 확인: 키 값은 출력·기록하지 않았고 `.env`는 Git에서 제외됨
+    - 미실행: 텍스트 생성 요청, 패키지 설치
 
-- [ ] 1.2 백엔드·프론트엔드 프로젝트 골격과 안전 설정 구성
+- [x] 1.2 백엔드·프론트엔드 프로젝트 골격과 안전 설정 구성
   - 목적: FastAPI·Streamlit·공통 설정을 분리하고 환경변수 기반 설정을 마련한다.
   - 관련 요구사항: FR-001, FR-016, NFR-005
   - 선행조건: 1.1
@@ -100,6 +107,12 @@
   - 완료 증거: 설정 단위 테스트 결과, 시크릿 검사 결과
   - 위험·주의사항: 서버·컨테이너 실행은 구현 단계에서만 수행한다.
   - 예상 일정: Day 2
+  - 완료 기록:
+    - 실제 변경 파일: `.gitignore`, `pyproject.toml`, `backend/__init__.py`, `backend/app/__init__.py`, `backend/app/core/__init__.py`, `backend/app/core/config.py`, `backend/app/main.py`, `frontend/__init__.py`, `frontend/app.py`, `tests/__init__.py`, `tests/unit/__init__.py`, `tests/unit/core/__init__.py`, `tests/unit/core/test_config.py`, `tasks/tasks-auto-healing.md`
+    - 구현 내용: 환경변수 우선 설정 로더, SecretStr 마스킹, FastAPI `/health` 진입점, Streamlit 골격, Python 프로젝트 메타데이터
+    - 테스트 결과: 설정 단위 테스트 3개 통과, 전체 unittest 3개 통과, compileall 통과, FastAPI import·health route 확인
+    - 완료 증거: `Ran 3 tests ... OK`, `COMPILE_EXIT=0`, `HEALTH_ROUTE=/health`, `SECRET_PATTERN_OUTSIDE_ENV=False`
+    - 미실행: 외부 API 호출, 서버 실행, 컨테이너 실행, 패키지 설치
 
 - [ ] 1.3 주문·메뉴·사건·상태 데이터 모델 정의
   - 목적: 주문 처리와 장애 복구에 필요한 공통 데이터 계약을 확정한다.
@@ -904,9 +917,9 @@ EC2 Docker Compose 환경에서 정상 흐름과 장애 복구를 증명하고 �
 
 ## 13. 승인
 
-- 작업목록 버전: v0.1 초안
-- 승인 상태: 승인 대기
-- 승인자: [미결정]
-- 승인일: [미결정]
+- 작업목록 버전: v1.0 승인본
+- 승인 상태: 승인
+- 승인자: 사용자
+- 승인일: 2026-10-30
 - 다음 단계 진행 조건: 사용자의 명시적 작업목록 승인
 - 승인 전 금지: 구현 시작, 상태를 `[~] in_progress`로 변경, `03-process-task-list.md` 실행
